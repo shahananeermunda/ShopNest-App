@@ -1,0 +1,152 @@
+/* =========================================
+   SHOPNEST CATEGORY CARD
+========================================= */
+
+.category-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+
+  background: var(--cream);
+  border: 1px solid var(--light-border);
+  border-radius: var(--radius);
+
+  text-decoration: none;
+  box-shadow: 0 5px 18px rgba(85, 53, 127, 0.06);
+
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+/* Category image */
+
+.category-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Image overlay */
+
+.category-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 10px;
+
+  padding: 24px;
+
+  background: linear-gradient(
+    to top,
+    rgba(45, 25, 70, 0.88) 0%,
+    rgba(85, 53, 127, 0.35) 45%,
+    rgba(85, 53, 127, 0.02) 100%
+  );
+
+  transition: background var(--transition);
+}
+
+.category-card:hover .category-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(45, 25, 70, 0.92) 0%,
+    rgba(85, 53, 127, 0.45) 55%,
+    rgba(85, 53, 127, 0.05) 100%
+  );
+}
+
+/* Category title */
+
+.category-overlay h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Explore category link */
+
+.category-overlay span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #f2d5a1;
+  font-size: 0.88rem;
+  font-weight: 500;
+
+  transition:
+    color var(--transition),
+    gap var(--transition);
+}
+
+.category-card:hover .category-overlay span {
+  color: var(--accent);
+  gap: 12px;
+}
+
+/* Keyboard accessibility */
+
+.category-card:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 4px;
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+  .category-overlay {
+    padding: 18px;
+  }
+
+  .category-overlay h3 {
+    font-size: 1.25rem;
+  }
+
+  .category-overlay span {
+    font-size: 0.82rem;
+  }
+}
+
+/* Small mobile */
+
+@media (max-width: 480px) {
+  .category-card {
+    aspect-ratio: 3 / 3.5;
+  }
+
+  .category-overlay {
+    padding: 12px;
+    gap: 7px;
+  }
+
+  .category-overlay h3 {
+    font-size: 1rem;
+  }
+
+  .category-overlay span {
+    gap: 4px;
+    font-size: 0.73rem;
+  }
+}

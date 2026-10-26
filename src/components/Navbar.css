@@ -1,0 +1,734 @@
+
+/* =========================================
+   SHOPNEST NAVBAR — VIOLET & GOLD THEME
+========================================= */
+
+:root {
+  --primary: #6f4aa8;
+  --primary-dark: #55357f;
+  --accent: #dcae63;
+
+  --text: #2f2935;
+  --muted: #77717e;
+
+  --white: #ffffff;
+  --cream: #faf7f2;
+  --light-purple: #f5effa;
+  --light-border: #e5ded4;
+
+  --danger: #c94f5f;
+
+  --shadow: 0 12px 30px rgba(45, 31, 60, 0.08);
+  --radius: 12px;
+  --transition: 0.2s ease;
+}
+
+/* =========================
+   NAVBAR — DESKTOP
+========================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 100%;
+  max-width: 100%;
+  padding: 14px 5%;
+
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid var(--light-border);
+  box-shadow: 0 4px 15px rgba(45, 31, 60, 0.05);
+
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+/* =========================
+   SHOPNEST LOGO
+========================= */
+
+.navbar .logo,
+.navbar .logo:link,
+.navbar .logo:visited,
+.navbar .logo:hover,
+.navbar .logo:focus,
+.navbar .logo:active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+
+  color: var(--primary-dark);
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--primary);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* =========================
+   NAVIGATION LINKS
+========================= */
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.navbar .navlink {
+  position: relative;
+  margin: 0;
+  padding: 8px 0;
+
+  color: #4d4952;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition: color var(--transition);
+}
+
+.navbar .navlink:hover,
+.navbar .navlink.navlink-active {
+  color: var(--primary);
+}
+
+.navbar .navlink.navlink-active {
+  font-weight: 700;
+}
+
+/* =========================
+   NAV ICONS
+========================= */
+
+.nav-icons {
+  position: relative;
+  z-index: 1001;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+
+  flex-shrink: 0;
+}
+.icon-btn {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -7px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border-radius: 50px;
+  background: var(--primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* =========================
+   SEARCH WRAPPER
+========================= */
+
+.search-wrapper {
+  position: relative;
+  width: 220px;
+  min-width: 150px;
+  flex-shrink: 1;
+}
+
+/* Search form */
+
+.search-form {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+
+  box-sizing: border-box;
+  background: var(--cream);
+  border: 1px solid var(--light-border);
+  border-radius: 8px;
+}
+
+.search-form:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(111, 74, 168, 0.09);
+}
+
+.search-form input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 9px 12px;
+
+  box-sizing: border-box;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  outline: 0;
+
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 0.82rem;
+}
+
+.search-form input::placeholder {
+  color: #99919e;
+}
+
+/* Search button */
+
+.search-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 100%;
+  padding: 0;
+
+  color: var(--primary);
+  background: var(--light-purple);
+  border: 0;
+  cursor: pointer;
+
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.search-form button:hover {
+  color: var(--primary-dark);
+  background: #ede2f7;
+}
+
+/* =========================
+   SEARCH SUGGESTIONS DROPDOWN
+========================= */
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+
+  width: 100%;
+  max-height: 360px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e5ded4;
+  border-radius: 3px;
+  box-shadow: 0 6px 18px rgba(45, 31, 60, 0.16);
+
+  z-index: 3000;
+}
+
+/* Each suggestion row */
+
+.search-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 58px;
+  padding: 7px 10px;
+
+  box-sizing: border-box;
+  color: var(--text);
+  background: #ffffff;
+  text-decoration: none;
+
+  transition: background var(--transition);
+}
+
+/* Suggestion hover */
+
+.search-suggestion:hover,
+.search-suggestion:focus-visible {
+  background: var(--light-purple);
+  outline: none;
+}
+
+/* Product thumbnail */
+
+.search-suggestion img {
+  display: block;
+
+  width: 38px;
+  height: 46px;
+  flex: 0 0 38px;
+
+  object-fit: contain;
+  object-position: center;
+
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+/* Product name only */
+
+.search-suggestion span {
+  display: block;
+  flex: 1;
+  min-width: 0;
+
+  color: #333333;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.4;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Empty suggestions message */
+
+.no-suggestions {
+  margin: 0;
+  padding: 14px 12px;
+
+  color: var(--muted);
+  background: #ffffff;
+
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 0.82rem;
+}
+
+/* =========================
+   WISHLIST AND CART BUTTONS
+========================= */
+
+.nav-icons .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 38px;
+  height: 40px;
+  padding: 0;
+
+  color: var(--primary);
+  background: var(--light-purple);
+  border: 1px solid #e5d8f0;
+  border-radius: 8px;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition:
+    color var(--transition),
+    background var(--transition),
+    border-color var(--transition);
+}
+
+.nav-icons .icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-icons .icon-btn:hover {
+  color: var(--primary-dark);
+  background: #ede2f7;
+  border-color: #d8c5e9;
+}
+
+/* Search icon toggle is hidden on desktop */
+
+.nav-icons .search-icon {
+  display: none;
+}
+
+/* =========================
+   HAMBURGER BUTTON
+========================= */
+
+.Hamburger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 38px;
+  height: 40px;
+  padding: 5px;
+
+  color: var(--primary);
+  background: var(--light-purple);
+  border: 1px solid #e5d8f0;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: background var(--transition);
+}
+
+.Hamburger:hover {
+  background: #ede2f7;
+}
+
+.Hamburger svg {
+  width: 23px;
+  height: 23px;
+}
+
+/* Desktop navigation stays horizontal */
+
+.nav-link.mobile-menu {
+  display: flex;
+}
+
+/* =========================
+   TABLET: 768px–1024px
+========================= */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar {
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 12px 2%;
+  }
+
+  .navbar .logo {
+    flex-shrink: 0;
+    font-size: 1.15rem;
+  }
+
+  .brand-icon {
+    font-size: 1.3rem;
+  }
+
+  /* Navigation links in the middle */
+
+  .nav-link {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    min-width: 0;
+  }
+
+  .navbar .navlink {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  /* Search and icons on the right */
+
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .search-wrapper {
+    width: 130px;
+    min-width: 100px;
+  }
+
+  .search-form {
+    width: 100%;
+  }
+
+  .nav-icons .icon-btn,
+  .Hamburger {
+    width: 32px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .nav-icons .icon-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Keep tablet links in a horizontal row */
+
+  .nav-link.mobile-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    width: auto;
+    padding: 0;
+  }
+
+  .search-suggestions {
+    max-height: 340px;
+  }
+
+  .search-suggestion {
+    gap: 9px;
+    min-height: 54px;
+    padding: 6px 8px;
+  }
+
+  .search-suggestion img {
+    width: 34px;
+    height: 42px;
+    flex-basis: 34px;
+  }
+
+  .search-suggestion span {
+    font-size: 0.8rem;
+  }
+}
+
+/* =========================
+   MOBILE: MAX 767px
+========================= */
+
+@media (max-width: 767px) {
+  .navbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+
+    column-gap: 12px;
+    row-gap: 12px;
+
+    padding: 12px 4%;
+  }
+
+  /* First row: logo */
+
+  .navbar .logo,
+  .navbar .logo:link,
+  .navbar .logo:visited,
+  .navbar .logo:hover,
+  .navbar .logo:focus,
+  .navbar .logo:active {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+
+    font-size: 1.2rem;
+  }
+
+  .brand-icon {
+    font-size: 1.35rem;
+  }
+
+  /* First row: hamburger */
+
+  .Hamburger {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  /* Second row: search, wishlist and cart */
+
+  .nav-icons {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+
+    width: 100%;
+    margin: 0;
+  }
+
+  /* Hide the regular search form on mobile */
+
+  .nav-icons .search-wrapper {
+    display: none;
+  }
+
+  /* Show the mobile search icon */
+
+  .nav-icons .search-icon {
+    display: inline-flex;
+  }
+
+  .nav-icons .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-icons .icon-btn svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  /* Expand search below the navbar when opened */
+
+  .nav-icons:has(.search-icon) .search-wrapper {
+    display: block;
+
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+
+    width: min(340px, 92vw);
+    min-width: 0;
+
+    z-index: 3001;
+  }
+
+  .search-form {
+    display: flex;
+    width: 100%;
+    height: 44px;
+    background: #ffffff;
+  }
+
+  .search-form input {
+    background: #ffffff;
+    font-size: 0.9rem;
+  }
+
+  .search-form button {
+    height: 100%;
+  }
+
+  .search-suggestions {
+    top: calc(100% + 2px);
+    max-height: 300px;
+
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(45, 31, 60, 0.17);
+  }
+
+  .search-suggestion {
+    gap: 10px;
+    min-height: 54px;
+    padding: 6px 8px;
+  }
+
+  .search-suggestion img {
+    width: 35px;
+    height: 43px;
+    flex-basis: 35px;
+  }
+
+  .search-suggestion span {
+    font-size: 0.85rem;
+  }
+
+  /* Mobile navigation menu */
+
+  .nav-link.mobile-menu {
+    grid-column: 1 / -1;
+    grid-row: 3;
+
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 8px;
+
+    width: 100%;
+    padding: 10px 0;
+
+    border-top: 1px solid var(--light-border);
+  }
+
+  .nav-link.mobile-menu.nav-link-open {
+    display: flex;
+  }
+
+  .navbar .navlink {
+    display: block;
+    width: 100%;
+    padding: 9px 0;
+
+    font-size: 0.9rem;
+  }
+}
+
+/* =========================
+   SMALL MOBILE: MAX 380px
+========================= */
+
+@media (max-width: 380px) {
+  .navbar {
+    column-gap: 6px;
+    padding: 12px 10px;
+  }
+
+  .navbar .logo,
+  .navbar .logo:link,
+  .navbar .logo:visited,
+  .navbar .logo:hover,
+  .navbar .logo:focus,
+  .navbar .logo:active {
+    gap: 5px;
+    font-size: 1.05rem;
+  }
+
+  .brand-icon {
+    font-size: 1.2rem;
+  }
+
+  .nav-icons {
+    gap: 7px;
+  }
+
+  .nav-icons .icon-btn,
+  .Hamburger {
+    width: 34px;
+    height: 36px;
+  }
+
+  .nav-icons:has(.search-icon) .search-wrapper {
+    width: calc(100vw - 20px);
+  }
+
+  .search-suggestions {
+    max-height: 260px;
+  }
+}

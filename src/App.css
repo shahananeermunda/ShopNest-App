@@ -1,0 +1,19 @@
+:root {
+  --primary: #6f4aa8;
+  --primary-dark: #55357f;
+  --accent: #dcae63;
+
+  --text: #2f2935;
+  --muted: #77717e;
+
+  --white: #ffffff;
+  --cream: #faf7f2;
+  --light-purple: #f5effa;
+  --light-border: #e5ded4;
+
+  --danger: #c94f5f;
+
+  --shadow: 0 12px 30px rgba(45, 31, 60, 0.08);
+  --radius: 12px;
+  --transition: 0.2s ease;
+}

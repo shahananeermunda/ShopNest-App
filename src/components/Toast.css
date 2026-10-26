@@ -1,0 +1,85 @@
+.shopnest-toast {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  max-width: calc(100vw - 40px);
+  padding: 16px 18px;
+
+  background: #ffffff;
+  color: #333333;
+
+  border-left: 5px solid #22a447;
+  border-radius: 10px;
+
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  animation: toastSlideIn 0.3s ease-out;
+}
+
+.toast-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+
+  color: #22a447;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.shopnest-toast button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #7048b5;
+  color: white;
+
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.shopnest-toast button:hover {
+  background: #593594;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .shopnest-toast {
+    right: 12px;
+    bottom: 12px;
+    gap: 8px;
+    padding: 12px;
+    font-size: 13px;
+  }
+}
