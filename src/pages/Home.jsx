@@ -173,7 +173,7 @@ function Home() {
             <p>HANDPICKED FOR YOU</p>
             <h2>Featured Products</h2>
             <span>
-              A few favourites from all four categories.
+              A few favourites from all categories.
             </span>
           </div>
 

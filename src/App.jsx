@@ -13,7 +13,7 @@ import { useCart } from "./context/CartContext";
 import Toast from "./components/ShowToast";
 
 import Contact from "./pages/Contact";
-// import NotFound from "./pages/NotFound";
+import NotFound from "./pages/NotFound";
 
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/contact" element={<Contact />} />
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
          <Toast
         message={toastMessage}

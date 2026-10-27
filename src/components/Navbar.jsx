@@ -4,7 +4,6 @@ import { useCart } from "../context/CartContext";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Search,
-  Heart,
   ShoppingCart,
   Menu,
   X,
@@ -149,7 +148,7 @@ export default function Navbar() {
         </NavLink>
       </div>
 
-      {/* Search, wishlist and cart */}
+      {/* Search and cart */}
       <div className="nav-icons">
         {/* Mobile search button */}
         {isMobile && (
@@ -221,15 +220,6 @@ export default function Navbar() {
             )}
           </div>
         )}
-
-        {/* Wishlist */}
-        <Link
-          to="/wishlist"
-          className="icon-btn"
-          aria-label="Wishlist"
-        >
-          <Heart />
-        </Link>
 
         {/* Cart */}
        <Link to="/cart" className="icon-btn" aria-label={`Shopping cart, ${cartCount} items`}>
