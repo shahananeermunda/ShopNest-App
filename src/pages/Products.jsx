@@ -1,3 +1,4 @@
+
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useFetch from "../Hooks/useFetch";
@@ -32,7 +33,6 @@ const ratingOptions = [
 ];
 
 // Convert values to lowercase and remove extra spaces.
-// Used to compare product names, categories, and subcategories.
 function normalize(value) {
   return String(value ?? "").trim().toLowerCase();
 }
@@ -54,28 +54,22 @@ function Products() {
   // DYNAMIC CATEGORY LIST
   // ----------------------------------------
 
-  // Build the category list from the fetched product data.
-  // Categories are ordered according to their lowest product ID.
   const categories = useMemo(() => {
     const firstSeen = new Map();
 
     products.forEach((product, index) => {
       const key = normalize(product.category);
 
-      // Ignore products without a category.
       if (!key) return;
 
-      // Use the product ID to determine category order.
       const id = Number(product.id);
       const order = Number.isFinite(id) ? id : 1e9 + index;
 
-      // Store the smallest ID found for each category.
       if (!firstSeen.has(key) || order < firstSeen.get(key)) {
         firstSeen.set(key, order);
       }
     });
 
-    // Sort categories and convert them into display labels.
     return [...firstSeen.entries()]
       .sort((a, b) => a[1] - b[1])
       .map(([key]) => toLabel(key));
@@ -85,73 +79,80 @@ function Products() {
   // URL SEARCH PARAMETERS
   // ----------------------------------------
 
-  // Read and update search parameters in the URL.
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Read the search keyword from the URL.
   const searchText = (searchParams.get("search") || "").trim();
 
-  // Read a specific product ID from the URL, if provided.
   const selectedProductId = searchParams.get("productId");
+
+  // Read category from URL.
+  const categoryFromURL = searchParams.get("category");
 
   // ----------------------------------------
   // FILTER AND UI STATES
   // ----------------------------------------
 
-  // Currently selected category and subcategory.
-  const [selectedCategory, setSelectedCategory] =
-    useState(ALL_CATEGORIES);
+  const [selectedCategory, setSelectedCategory] = useState(
+    categoryFromURL
+      ? toLabel(categoryFromURL)
+      : ALL_CATEGORIES
+  );
 
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
 
-  // Selected price range and minimum rating.
   const [priceRange, setPriceRange] = useState("all");
   const [minRating, setMinRating] = useState("all");
 
-  // Whether to display only products on sale.
   const [saleOnly, setSaleOnly] = useState(false);
 
-  // Selected product sorting option.
   const [sortBy, setSortBy] = useState("featured");
 
-  // Current pagination page.
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Control whether each filter section is expanded.
   const [showSubcategories, setShowSubcategories] = useState(true);
   const [showPrice, setShowPrice] = useState(false);
   const [showRating, setShowRating] = useState(false);
 
-  // Control the filter panel on mobile screens.
   const [showFiltersOnMobile, setShowFiltersOnMobile] =
     useState(false);
 
-  // Number of products displayed on each page.
   const productsPerPage = 4;
+
+  // ----------------------------------------
+  // SYNC CATEGORY WITH URL
+  // ----------------------------------------
+
+  useEffect(() => {
+    const category = searchParams.get("category");
+
+    if (category) {
+      setSelectedCategory(toLabel(category));
+    } else {
+      setSelectedCategory(ALL_CATEGORIES);
+    }
+
+    setSelectedSubcategory("");
+  }, [searchParams]);
 
   // ----------------------------------------
   // DYNAMIC SUBCATEGORY LIST
   // ----------------------------------------
 
-  // Get subcategories belonging to the selected category.
   const availableSubcategories = useMemo(() => {
-    // No subcategory list is needed when all categories are selected.
     if (selectedCategory === ALL_CATEGORIES) return [];
 
     const names = new Set();
 
     products.forEach((product) => {
-      // Ignore products belonging to other categories.
       if (normalize(product.category) !== normalize(selectedCategory)) {
         return;
       }
 
-      // Add non-empty subcategories without duplicates.
       const name = String(product.subcategory ?? "").trim();
+
       if (name) names.add(name);
     });
 
-    // Sort subcategories alphabetically.
     return [...names]
       .sort((a, b) => a.localeCompare(b))
       .map((name) => ({ name }));
@@ -161,10 +162,9 @@ function Products() {
   // FILTERING AND SORTING PRODUCTS
   // ----------------------------------------
 
-  // Apply search, category, price, rating, and sale filters.
-  // Then sort the filtered products based on the selected option.
   const filteredProducts = useMemo(() => {
     let result = products.filter((product) => {
+
       // If a product ID exists in the URL, show only that product.
       if (selectedProductId !== null) {
         return String(product.id) === selectedProductId;
@@ -199,7 +199,7 @@ function Products() {
         return false;
       }
 
-      // Read the product price as a number.
+      // Read product price.
       const price = Number(product.price) || 0;
 
       // Filter products under ₹500.
@@ -207,7 +207,7 @@ function Products() {
         return false;
       }
 
-      // Filter products priced between ₹500 and ₹1,000.
+      // Filter products between ₹500 and ₹1,000.
       if (
         priceRange === "500to1000" &&
         (price < 500 || price > 1000)
@@ -215,7 +215,7 @@ function Products() {
         return false;
       }
 
-      // Filter products above ₹1,000 and up to ₹2,000.
+      // Filter products between ₹1,000 and ₹2,000.
       if (
         priceRange === "1000to2000" &&
         (price <= 1000 || price > 2000)
@@ -236,8 +236,7 @@ function Products() {
         return false;
       }
 
-      // Show only products marked as sale items
-      // or products whose original price exceeds their current price.
+      // Show only sale products.
       if (
         saleOnly &&
         normalize(product.badge) !== "sale" &&
@@ -246,31 +245,30 @@ function Products() {
         return false;
       }
 
-      // Include products that pass every active filter.
       return true;
     });
 
-    // Create a copy before sorting so the original array is unchanged.
+    // Create a copy before sorting.
     result = [...result];
 
-    // Sort products by price from low to high.
+    // Sort by price: low to high.
     if (sortBy === "priceLow") {
       result.sort((a, b) => Number(a.price) - Number(b.price));
     }
 
-    // Sort products by price from high to low.
+    // Sort by price: high to low.
     else if (sortBy === "priceHigh") {
       result.sort((a, b) => Number(b.price) - Number(a.price));
     }
 
-    // Sort products by highest rating first.
+    // Sort by highest rating.
     else if (sortBy === "rating") {
       result.sort(
         (a, b) => (Number(b.rating) || 0) - (Number(a.rating) || 0)
       );
     }
 
-    // Sort products alphabetically by name.
+    // Sort alphabetically.
     else if (sortBy === "name") {
       result.sort((a, b) =>
         String(a.title || a.name || "").localeCompare(
@@ -279,7 +277,6 @@ function Products() {
       );
     }
 
-    // Return the filtered and sorted products.
     return result;
   }, [
     products,
@@ -297,12 +294,10 @@ function Products() {
   // PAGINATION
   // ----------------------------------------
 
-  // Calculate the total number of pages.
   const totalPages = Math.ceil(
     filteredProducts.length / productsPerPage
   );
 
-  // Get only the products that belong to the current page.
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
@@ -312,8 +307,6 @@ function Products() {
   // RESET PAGINATION WHEN FILTERS CHANGE
   // ----------------------------------------
 
-  // Whenever the search, filters, or sorting changes,
-  // return to the first page.
   useEffect(() => {
     setCurrentPage(1);
   }, [
@@ -331,13 +324,23 @@ function Products() {
   // EVENT HANDLERS
   // ----------------------------------------
 
-  // Change the selected category and clear its subcategory.
+  // Change category and clear subcategory.
   function changeCategory(category) {
     setSelectedCategory(category);
     setSelectedSubcategory("");
+
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (category === ALL_CATEGORIES) {
+      nextParams.delete("category");
+    } else {
+      nextParams.set("category", category.toLowerCase());
+    }
+
+    setSearchParams(nextParams);
   }
 
-  // Reset all category, price, rating, sale, and sorting filters.
+  // Reset all filters.
   function clearFilters() {
     setSelectedCategory(ALL_CATEGORIES);
     setSelectedSubcategory("");
@@ -346,9 +349,14 @@ function Products() {
     setSaleOnly(false);
     setSortBy("featured");
     setCurrentPage(1);
+
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete("category");
+
+    setSearchParams(nextParams);
   }
 
-  // Remove search and product ID parameters from the URL.
+  // Remove search and product ID parameters.
   function clearSearch() {
     const nextParams = new URLSearchParams(searchParams);
 
@@ -362,7 +370,6 @@ function Products() {
   // LOADING STATE
   // ----------------------------------------
 
-  // Display a message while products are being fetched.
   if (loading) {
     return (
       <main className="products-page">
@@ -375,7 +382,6 @@ function Products() {
   // ERROR STATE
   // ----------------------------------------
 
-  // Display an error message if fetching products fails.
   if (error) {
     return (
       <main className="products-page">
@@ -402,7 +408,7 @@ function Products() {
           <p>Discover products selected specially for you.</p>
         </header>
 
-        {/* Category buttons generated dynamically from product data */}
+        {/* Category buttons */}
         <div
           className="category-pills"
           role="group"
@@ -423,7 +429,7 @@ function Products() {
           ))}
         </div>
 
-        {/* Display the current search keyword and provide a clear button */}
+        {/* Search results heading */}
         {searchText && (
           <div className="search-results-heading">
             <div>
@@ -439,7 +445,7 @@ function Products() {
           </div>
         )}
 
-        {/* Display a message when a specific product ID is selected */}
+        {/* Selected product heading */}
         {selectedProductId !== null && (
           <div className="search-results-heading">
             <div>
@@ -453,7 +459,7 @@ function Products() {
           </div>
         )}
 
-        {/* Collection title, product count, and sorting dropdown */}
+        {/* Collection toolbar */}
         <div className="products-collection-toolbar">
           <div>
             <h2>
@@ -470,7 +476,7 @@ function Products() {
             </p>
           </div>
 
-          {/* Update the sorting order when the user selects an option */}
+          {/* Sorting dropdown */}
           <label className="products-sort">
             <span>Sort by:</span>
 
@@ -487,13 +493,12 @@ function Products() {
           </label>
         </div>
 
-        {/* Main layout containing the filter sidebar and product results */}
+        {/* Main products layout */}
         <div className="products-layout">
 
-          {/* Sidebar containing all product filters */}
+          {/* Filter sidebar */}
           <aside className="product-filters">
 
-            {/* Sidebar heading and clear-all button */}
             <div className="filter-heading">
               <h3>Filter Products</h3>
 
@@ -502,7 +507,7 @@ function Products() {
               </button>
             </div>
 
-            {/* Show or hide the filters on mobile devices */}
+            {/* Mobile filter toggle */}
             <button
               type="button"
               className="mobile-filter-toggle"
@@ -514,18 +519,16 @@ function Products() {
               {showFiltersOnMobile ? "Hide Filters −" : "Show Filters +"}
             </button>
 
-            {/* Filter content becomes visible on mobile when expanded */}
             <div
               className={`filter-content ${
                 showFiltersOnMobile ? "filter-content-open" : ""
               }`}
             >
 
-              {/* Subcategory filter appears only when a category is selected */}
+              {/* Subcategory filter */}
               {selectedCategory !== ALL_CATEGORIES && (
                 <section className="filter-group">
 
-                  {/* Expand or collapse the subcategory options */}
                   <button
                     type="button"
                     className="filter-toggle"
@@ -541,11 +544,9 @@ function Products() {
                     </span>
                   </button>
 
-                  {/* Display available subcategories */}
                   {showSubcategories && (
                     <div className="filter-options">
 
-                      {/* Option to show every subcategory in this category */}
                       <label className="filter-option">
                         <input
                           type="radio"
@@ -557,7 +558,6 @@ function Products() {
                         <span>All {selectedCategory}</span>
                       </label>
 
-                      {/* Generate a radio option for each subcategory */}
                       {availableSubcategories.map((subcategory) => (
                         <label
                           className="filter-option"
@@ -585,7 +585,6 @@ function Products() {
               {/* Price range filter */}
               <section className="filter-group">
 
-                {/* Expand or collapse price options */}
                 <button
                   type="button"
                   className="filter-toggle"
@@ -599,7 +598,6 @@ function Products() {
                   </span>
                 </button>
 
-                {/* Display available price ranges */}
                 {showPrice && (
                   <div className="filter-options">
                     {priceOptions.map((option) => (
@@ -621,7 +619,6 @@ function Products() {
               {/* Customer rating filter */}
               <section className="filter-group">
 
-                {/* Expand or collapse rating options */}
                 <button
                   type="button"
                   className="filter-toggle"
@@ -635,7 +632,6 @@ function Products() {
                   </span>
                 </button>
 
-                {/* Display available minimum ratings */}
                 {showRating && (
                   <div className="filter-options">
                     {ratingOptions.map((option) => (
@@ -654,7 +650,7 @@ function Products() {
                 )}
               </section>
 
-              {/* Checkbox to show only products on sale */}
+              {/* Sale filter */}
               <section className="filter-group">
                 <label className="filter-option filter-sale">
                   <input
@@ -671,10 +667,9 @@ function Products() {
             </div>
           </aside>
 
-          {/* Product results section */}
+          {/* Product results */}
           <section className="products-results">
 
-            {/* Show how many products are displayed on the current page */}
             <div className="results-toolbar">
               <span>
                 Showing {currentProducts.length} of {filteredProducts.length}{" "}
@@ -682,7 +677,6 @@ function Products() {
               </span>
             </div>
 
-            {/* Display product cards when matching products exist */}
             {currentProducts.length > 0 ? (
               <div className="product-grid">
                 {currentProducts.map((product) => (
@@ -690,7 +684,6 @@ function Products() {
                 ))}
               </div>
             ) : (
-              // Display an empty state when no products match the filters.
               <div className="no-products">
                 <div className="empty-bag">⌕</div>
 
@@ -701,7 +694,6 @@ function Products() {
                   Try changing your selection.
                 </p>
 
-                {/* Reset filters and URL search to show all products again */}
                 <button
                   type="button"
                   onClick={() => {
@@ -714,7 +706,7 @@ function Products() {
               </div>
             )}
 
-            {/* Show pagination only when multiple pages are available */}
+            {/* Pagination */}
             {totalPages > 1 && (
               <div className="products-pagination">
                 <Pagination
