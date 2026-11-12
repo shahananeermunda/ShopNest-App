@@ -1,16 +1,78 @@
-# React + Vite
+# ShopNest – E-Commerce Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive e-commerce web application built with React, allowing users to browse products, explore categories, view product details, and manage their shopping cart.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Browse and explore products.
+- Filter products by category.
+- View individual product details.
+- Add and remove products from the shopping cart.
+- Increase and decrease product quantities.
+- View cart subtotal, tax, and total amount.
+- Persistent cart data using localStorage.
+- Responsive user interface.
+- Loading and error handling for API requests.
 
-## React Compiler
+## Technologies
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React.js
+- JavaScript
+- HTML5
+- CSS3
+- React Router
+- Context API
+- Axios
+- Vite
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+ShopNest/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── context/
+│   ├── pages/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── index.html
+├── package.json
+└── README.md
+```
+
+## Installation
+
+Install the project dependencies:
+
+```bash
+npm install
+```
+
+## Run the Project
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open the local URL provided by Vite in your browser.
+
+## Application Pages
+
+- Home – Browse featured products.
+- Products – Explore and filter products.
+- Product Details – View detailed product information.
+- Cart – Manage cart items and view the total amount.
+- Contact – Get in touch through the contact page.
+
+## Data Storage
+
+Cart information is stored in localStorage to maintain cart items across page refreshes.
+
+## Project Status
+
+Frontend implementation completed.
